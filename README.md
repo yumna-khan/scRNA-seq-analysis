@@ -42,7 +42,13 @@ The dataset includes cells collected from distinct anatomical regions, including
 In total, the dataset comprises 156,572 cells and 25,129 gene features. Cells are categorized into two infection states: naïve and infected, enabling comparative analysis of transcriptional responses over time.
 
 ### 2. Quality Control
+The dataset was explored prior to quality control to examine metadata and assess the number of cells and genes. Quality control was performed by calculating the percentage of mitochondrial gene expression (`percent.mt`) as an indicator of cellular stress. Cells undergoing stress or apoptosis, which can occur during viral infections such as Influenza A virus (IAV), often exhibit elevated mitochondrial RNA content due to leakage of cytoplasmic RNA. Cells with mitochondrial percentages exceeding 10–20% were considered low quality and potentially non-viable (Osorio & Cai, 2020).
 
+To visualize the distribution of quality control metrics prior to filtering, violin plots were generated for each sample (grouped by `orig.ident`), displaying the number of detected genes per cell (`nFeature_RNA`), total RNA counts per cell (`nCount_RNA`), and the percentage of mitochondrial gene expression (`percent.mt`).
+
+Additionally, scatter plots were used to assess relationships between quality control metrics. A strong positive correlation was observed between `nCount_RNA` and `nFeature_RNA` (Pearson correlation = 0.83), indicating that cells with higher RNA counts tend to have more detected genes. In contrast, a weak correlation was observed between mitochondrial percentage and gene count (Pearson correlation = -0.06), suggesting that mitochondrial content is largely independent of gene complexity.
+
+Based on these metrics, cells were filtered to retain high-quality cells with `percent.mt < 10, nFeature_RNA > 200, and nFeature_RNA < 4000`. A new Seurat object containing only filtered cells was then created for downstream analysis.
 
 ### 3. Normalization & Scaling
 
