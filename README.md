@@ -8,11 +8,11 @@
 - [Methods](#methods)
   - [1. Data Description](#1-data-description)
   - [2. Quality Control](#2-quality-control)
-  - [3. ](#3-)
-  - [4. ](#4-)
-  - [5. (#5-)
-  - [6. ](#6-)
-  - [7. ](#7)
+  - [3. Normalization & Scaling](#3-normalization--scaling)
+  - [4. Clustering](#4-clustering)
+  - [5. Annotation](#5-annotation)
+  - [6. Differential Expression](#6-differential-expression)
+  - [7. GSEA](#7-gsea)
 - [Results](#results)
 - [Discussion](#discussion)
 - [References](#references)
@@ -35,12 +35,28 @@ Overall, the objective of this study is to characterize the transcriptional resp
 
 ## Methods
 ### 1. Data Description
+The dataset used in this study was obtained from a previously published study by Kazer et al., 2024. It consists of single-cell RNA sequencing data from mouse nasal mucosa following Influenza A virus (IAV) infection, where viral exposure was restricted to the nasal cavity.
 
+The dataset includes cells collected from distinct anatomical regions, including the respiratory mucosa (RM), olfactory mucosa (OM), and lateral nasal gland (LNG). Samples were obtained across five time points: naïve (uninfected) and 2, 5, 8, and 14 days post-infection (dpi).
+
+In total, the dataset comprises 156,572 cells and 25,129 gene features. Cells are categorized into two infection states: naïve and infected, enabling comparative analysis of transcriptional responses over time.
 
 ### 2. Quality Control
 
 
-### 3.
+### 3. Normalization & Scaling
+
+
+### 4. Clustering
+
+
+### 5. Annotation
+
+
+### 6. Differential Expression
+
+
+### 7. GSEA
 
 
 ## Results
