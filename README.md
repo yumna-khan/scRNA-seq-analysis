@@ -42,7 +42,7 @@ The dataset includes cells collected from distinct anatomical regions, including
 In total, the dataset comprises 156,572 cells and 25,129 gene features. Cells are categorized into two infection states: naïve and infected, enabling comparative analysis of transcriptional responses over time.
 
 ### 2. Quality Control
-The dataset was explored prior to quality control to examine metadata and assess the number of cells and genes. Quality control was performed by calculating the percentage of mitochondrial gene expression (`percent.mt`) as an indicator of cellular stress. Cells undergoing stress or apoptosis, which can occur during viral infections such as Influenza A virus (IAV), often exhibit elevated mitochondrial RNA content due to leakage of cytoplasmic RNA. Cells with mitochondrial percentages exceeding 10–20% were considered low quality and potentially non-viable (Osorio & Cai, 2020).
+The dataset was explored prior to quality control to examine metadata and assess the number of cells and genes. Quality control was performed in R (v4.5.2) by calculating the percentage of mitochondrial gene expression (`percent.mt`) as an indicator of cellular stress. Cells undergoing stress or apoptosis, which can occur during viral infections such as Influenza A virus (IAV), often exhibit elevated mitochondrial RNA content due to leakage of cytoplasmic RNA. Cells with mitochondrial percentages exceeding 10–20% were considered low quality and potentially non-viable (Osorio & Cai, 2020).
 
 To visualize the distribution of quality control metrics prior to filtering, violin plots were generated for each sample (grouped by `orig.ident`), displaying the number of detected genes per cell (`nFeature_RNA`), total RNA counts per cell (`nCount_RNA`), and the percentage of mitochondrial gene expression (`percent.mt`).
 
@@ -51,13 +51,22 @@ Additionally, scatter plots were used to assess relationships between quality co
 Based on these metrics, cells were filtered to retain high-quality cells with `percent.mt < 10, nFeature_RNA > 200, and nFeature_RNA < 4000`. A new Seurat object containing only filtered cells was then created for downstream analysis.
 
 ### 3. Normalization & Scaling
-Prior to normalization, the filtered Seurat object was transferred to a high-performance computing (HPC) environment for efficient processing. Normalization was performed using the `SCTransform` method implemented in the Seurat package. SCTransform performs normalization, scaling, and variance stabilization in a single step using a regularized negative binomial regression model, which accounts for sequencing depth and technical variability (Hafemeister & Satija, 2019).
+Prior to normalization, the filtered Seurat object was transferred to a high-performance computing (HPC) environment for efficient processing. Normalization was performed in R (4.5.0) using the `SCTransform` method implemented in the Seurat package. SCTransform performs normalization, scaling, and variance stabilization in a single step using a regularized negative binomial regression model, which accounts for sequencing depth and technical variability (Hafemeister & Satija, 2019).
 
 During normalization, unwanted sources of technical variation were regressed out using the `vars.to.regress` parameter. Highly variable genes (HVGs) were identified using `variable.features.n = 3000`, and the `method = "glmGamPoi"` option was used to improve computational efficiency during model fitting (Choudhary et al., 2023).
 
 SCTransform normalization was executed on the HPC using an [R Script](code/normalize/run_normalization.R) submitted via a [shell job script](code/normalize/normalize_job.sh).
 
 ### 4. Clustering
+Following SCTransform normalization, the dataset was subjected to Principal Component Analysis (PCA) using the `RunPCA` function in the Seurat package. To determine the number of principal components (PCs) to retain, an elbow plot was generated for the first 50 PCs. Based on the point at which the standard deviation plateaued, the first 30 PCs were selected for downstream analysis.
+
+PCA embeddings were also examined to assess potential batch effects across samples. As cells from different time points did not form distinct, segregated clusters, batch correction methods such as Harmony were not applied.
+
+To identify distinct cell populations, a shared nearest neighbor (SNN) graph was constructed using the `FindNeighbors` function based on the selected 30 PCs. Graph-based clustering was then performed using the `Louvain` algorithm implemented in the `FindClusters` function. To evaluate clustering resolution, two resolutions (0.6 and 0.9) were tested, consistent with parameters reported in the original study (Kazer et al., 2024). Based on visual inspection of cluster separation and biological interpretability, a resolution of 0.6 was selected for downstream analysis.
+
+For visualization and assessment of cluster structure, UMAP was performed using the same 30 PCs. UMAP plots were generated and colored by original sample identity (`orig.ident`) to assess potential batch effects, and by cluster identity to evaluate the biological organization of the data.
+
+All analyses were executed on a high-performance computing (HPC) environment using R scripts submitted via SLURM job scheduling.
 
 
 ### 5. Annotation
