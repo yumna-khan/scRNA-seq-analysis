@@ -66,8 +66,7 @@ To identify distinct cell populations, a shared nearest neighbor (SNN) graph was
 
 For visualization and assessment of cluster structure, UMAP was performed using the same 30 PCs. UMAP plots were generated and colored by original sample identity (`orig.ident`) to assess potential batch effects, and by cluster identity to evaluate the biological organization of the data.
 
-All analyses were executed on a high-performance computing (HPC) environment using R scripts submitted via SLURM job scheduling.
-
+All analyses were executed on a high-performance computing (HPC) environment using [R Script](code/normalize/UMAP.R) submitted via [SLURM](code/normalize/final_UMAP.sh) job scheduling.
 
 ### 5. Annotation
 
