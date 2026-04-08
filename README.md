@@ -55,7 +55,7 @@ Prior to normalization, the filtered Seurat object was transferred to a high-per
 
 During normalization, unwanted sources of technical variation were regressed out using the `vars.to.regress` parameter. Highly variable genes (HVGs) were identified using `variable.features.n = 3000`, and the `method = "glmGamPoi"` option was used to improve computational efficiency during model fitting (Choudhary et al., 2023).
 
-SCTransform normalization was executed on the HPC using an R script submitted via a shell job script.
+SCTransform normalization was executed on the HPC using an [R Script](code/normalize/run_normalization.R) submitted via a [shell job script](code/normalize/normalize_job.sh).
 
 ### 4. Clustering
 
