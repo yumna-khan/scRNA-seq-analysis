@@ -108,17 +108,14 @@ All analyses were performed in R, and the corresponding [code](code/gsea/gsea.R)
 
 
 ## Results
-<table>
-  <tr>
-    <td align="center"><b>Pre-Filtering</b></td>
-    <td align="center"><b>Post-Filtering</b></td>
-  </tr>
-  <tr>
-    <td><img src="results/quality_control/QC_violin_prefilter.png" width="500"/></td>
-    <td><img src="results/quality_control/QC_violin_postfilter.png" width="500"/></td>
-  </tr>
-</table>
+### Quality Control
+![Pre-Filtering](results/quality_control/QC_violin_prefilter.png)
 
+**Figure 1:** Distribution of Quality Control Metrics Prior to Filtering. This visualization displays the number of unique genes (nFeature_RNA), total RNA counts (nCount_RNA), and mitochondrial gene percentage (percent.mt) for each sample before data cleaning. The wide distribution of mitochondrial reads and the presence of cells with very low gene counts highlight the necessity of filtering to remove non-viable cells and technical noise.
+
+![Post-Filtering](results/quality_control/QC_violin_postfilter.png)
+
+**Figure 2:** Distribution of Quality Control Metrics Following Filtering. The metrics are shown after applying thresholds of 500–4,000 unique genes and a mitochondrial maximum of 10%. By narrowing these distributions, the dataset is restricted to high-quality, viable cells, providing a consistent baseline for the subsequent normalization.
 
 ## Discussion
 
