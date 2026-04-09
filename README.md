@@ -109,11 +109,11 @@ All analyses were performed in R, and the corresponding [code](code/gsea/gsea.R)
 
 ## Results
 ### Quality Control
-![Pre-Filtering](results/quality_control/QC_violin_prefilter.png)
+![Figure 1](results/quality_control/QC_violin_prefilter.png)
 
 **Figure 1:** Distribution of Quality Control Metrics Prior to Filtering. This visualization displays the number of unique genes (Gene Count), total RNA counts (RNA Count), and mitochondrial gene percentage (Mitochondrial %) for each sample before data cleaning. The wide distribution of mitochondrial reads and the presence of cells with very low gene counts highlight the necessity of filtering to remove non-viable cells and technical noise.
 
-![Post-Filtering](results/quality_control/QC_violin_postfilter.png)
+![Figure 2](results/quality_control/QC_violin_postfilter.png)
 
 **Figure 2:** Distribution of Quality Control Metrics Following Filtering. The metrics are shown after applying thresholds of 500–4,000 unique genes, a threshold of 0-6500 of total RNA counts, and a mitochondrial maximum of 10%. By narrowing these distributions, the dataset is restricted to high-quality, viable cells, providing a consistent baseline for the subsequent normalization.
 
@@ -121,6 +121,23 @@ Initial assessment of the scRNA-seq dataset revealed substantial variability in 
 
 To prevent these low-quality cells from biasing downstream clustering and functional analyses, a stringent filtering strategy was applied. Following filtering ([Figure 2](results/quality_control/QC_violin_postfilter.png)), the dataset was restricted to high-quality cells with mitochondrial content below 10% and a gene detection range between 500 and 4,000 unique features. This ensured that subsequent analyses were performed on biologically meaningful and high-confidence cell populations.
 
+### Annotation
+![Figure 3](results/annotation/UMAP_clusters_vs_annotations.png)
+
+**Figure 3:** Comparative UMAP Analysis: Clustering vs. Biological Annotation. The side-by-side UMAP embeddings illustrate the unsupervised clustering at a resolution of 0.6 (left) and the subsequent manual cell-type annotation (right). It identifies 39 distinct cell populations including various neuronal, epithelial, and immune lineages.
+
+Unsupervised clustering and dimensionality reduction revealed a highly complex cellular architecture within the respiratory tissues, represented by 39 distinct clusters ([Figure 3](results/annotation/UMAP_clusters_vs_annotations.png)). The global data structure was primarily driven by biological lineage, as evidenced by the clear spatial separation between neuronal populations (e.g., mature olfactory neurons, neuronal progenitors), epithelial cells (e.g., horizontal basal cells, secretory cells), and infiltrating immune populations.
+
+Comparison of the cluster-based UMAP with the annotated version confirmed that a resolution of 0.6 effectively captured the biological diversity of the tissue without over-clustering technical noise. This map provided the foundation for lineage-specific analyses, enabling the precise isolation of the macrophage compartment.
+
+Macrophages, comprising distinct clusters of homeostatic, M2-like, and tissue-resident populations, were identified across clusters 5, 13, and 16 and selected for further investigation of the transcriptomic response to Influenza A infection.
+
+
+
+
+### Differential Expression
+
+### GSEA
 
 ## Discussion
 
