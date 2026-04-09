@@ -111,11 +111,16 @@ All analyses were performed in R, and the corresponding [code](code/gsea/gsea.R)
 ### Quality Control
 ![Pre-Filtering](results/quality_control/QC_violin_prefilter.png)
 
-**Figure 1:** Distribution of Quality Control Metrics Prior to Filtering. This visualization displays the number of unique genes (nFeature_RNA), total RNA counts (nCount_RNA), and mitochondrial gene percentage (percent.mt) for each sample before data cleaning. The wide distribution of mitochondrial reads and the presence of cells with very low gene counts highlight the necessity of filtering to remove non-viable cells and technical noise.
+**Figure 1:** Distribution of Quality Control Metrics Prior to Filtering. This visualization displays the number of unique genes (Gene Count), total RNA counts (RNA Count), and mitochondrial gene percentage (Mitochondrial %) for each sample before data cleaning. The wide distribution of mitochondrial reads and the presence of cells with very low gene counts highlight the necessity of filtering to remove non-viable cells and technical noise.
 
 ![Post-Filtering](results/quality_control/QC_violin_postfilter.png)
 
-**Figure 2:** Distribution of Quality Control Metrics Following Filtering. The metrics are shown after applying thresholds of 500–4,000 unique genes and a mitochondrial maximum of 10%. By narrowing these distributions, the dataset is restricted to high-quality, viable cells, providing a consistent baseline for the subsequent normalization.
+**Figure 2:** Distribution of Quality Control Metrics Following Filtering. The metrics are shown after applying thresholds of 500–4,000 unique genes, a threshold of 0-6500 of total RNA counts, and a mitochondrial maximum of 10%. By narrowing these distributions, the dataset is restricted to high-quality, viable cells, providing a consistent baseline for the subsequent normalization.
+
+Initial assessment of the scRNA-seq dataset revealed substantial variability in cellular quality across samples, as reflected in pre-filtering metrics ([Figure 1](results/quality_control/QC_violin_prefilter.png)). Violin plots of quality control features showed that most cells contained between 1,000 and 3,000 detected genes (Gene Count) and exhibited consistent total RNA counts (RNA Count) across time points, indicating uniform sequencing depth. However, a subset of cells displayed elevated mitochondrial gene expression (Mitochondrial %), with values extending up to ~15%, suggesting the presence of stressed or dying cells, likely associated with Influenza A infection or tissue processing.
+
+To prevent these low-quality cells from biasing downstream clustering and functional analyses, a stringent filtering strategy was applied. Following filtering ([Figure 2](results/quality_control/QC_violin_postfilter.png)), the dataset was restricted to high-quality cells with mitochondrial content below 10% and a gene detection range between 500 and 4,000 unique features. This ensured that subsequent analyses were performed on biologically meaningful and high-confidence cell populations.
+
 
 ## Discussion
 
