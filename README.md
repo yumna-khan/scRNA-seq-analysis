@@ -132,10 +132,20 @@ Comparison of the cluster-based UMAP with the annotated version confirmed that a
 
 Macrophages, comprising distinct clusters of homeostatic, M2-like, and tissue-resident populations, were identified across clusters 5, 13, and 16 and selected for further investigation of the transcriptomic response to Influenza A infection.
 
+![Figure 4](results/annotation/featureplot_markers.png)
 
+**Figure 4:** Distribution and intensity of specific gene transcripts. The color gradient indicates the expression level, with darker or highlighted regions representing higher concentration of mRNA for a given marker. Genes such as C1qa, Adcy3, and Krt15 are shown to be restricted to specific spatial coordinates on the UMAP, corresponding to the Macrophage, Mature Olfactory Neuron, and Basal Cell populations, respectively.
 
+To validate the biological accuracy of the 39 identified clusters, feature plots were generated to visualize the expression of canonical lineage-specific marker genes ([Figure 4](results/annotation/featureplot_markers.png)). The results demonstrated clear spatial localization of marker expression within their respective annotated clusters.
+
+For example, markers such as C1qa (macrophages), Adcy3 (neurons), and Krt15 (basal cells) exhibited highly restricted expression patterns, appearing in specific clusters rather than being broadly distributed across the dataset. This distinct localization of gene expression supports the biological validity of the clustering and confirms that each cluster represents a unique cell population with a characteristic transcriptomic profile.
 
 ### Differential Expression
+![Figure 5](results/differential_expression/volcano_Macrophages.png)
+
+**Figure 5:** Differential Gene Expression in Macrophages. This volcano plot illustrates the transcriptional changes in macrophages when comparing Infected vs. Naive conditions. The x-axis represents the log2 fold change, while the y-axis shows the statistical significance (-log10 adjusted p-value). Red points represent significantly upregulated genes, including Gm42418 (the most significant) and Obp1a (the highest fold change). Blue points indicate downregulated genes, such as Cd14, Nfkbia, and Cxcl2. Gray points represent genes that did not meet the significance threshold.
+
+The differential expression analysis of the macrophage compartment revealed a distinct transcriptomic response to infection ([Figure 5](results/differential_expression/volcano_Macrophages.png)). The most statistically significant upregulated gene was Gm42418, while Obp1a showed the most substantial positive fold change, suggesting these may be key markers of the infection state in this tissue. Additionally, several genes associated with inflammatory signaling and structural regulation, such as mt-Atp8 and Tubb4b, were significantly induced. In contrast, the downregulation of several myeloid and signaling genes, including Cd14, Nfkbia, and Dusp1, was observed. 
 
 ### GSEA
 
