@@ -108,7 +108,16 @@ All analyses were performed in R, and the corresponding [code](code/gsea/gsea.R)
 
 
 ## Results
-
+<table>
+  <tr>
+    <td align="center"><b>Pre-Filtering</b></td>
+    <td align="center"><b>Post-Filtering</b></td>
+  </tr>
+  <tr>
+    <td><img src="results/quality_control/QC_violin_prefilter.png" width="500"/></td>
+    <td><img src="results/quality_control/QC_violin_postfilter.png" width="500"/></td>
+  </tr>
+</table>
 
 
 ## Discussion
