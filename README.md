@@ -69,6 +69,15 @@ For visualization and assessment of cluster structure, UMAP was performed using 
 All analyses were executed on a high-performance computing (HPC) environment using [R Script](code/normalize/UMAP.R) submitted via [SLURM](code/normalize/final_UMAP.sh) job scheduling.
 
 ### 5. Annotation
+To assign biological identities to clusters generated at a resolution of `0.6`, differential expression analysis was first performed using the `FindAllMarkers` function in the Seurat package. A Wilcoxon rank-sum test was used to identify positive marker genes, with a minimum `log₂ fold-change threshold of 0.25` and a requirement that genes be expressed in at least 25% of cells within each cluster. Marker genes were ranked by `average log₂ fold-change`, and the top markers per cluster were selected for downstream annotation.
+
+Clusters were manually annotated based on the expression of canonical marker genes identified through differential expression analysis. Multiple markers per cluster were considered to ensure robust and accurate cell-type assignment. Both immune (e.g., Cd3d for T cells, Cd79a for B cells) and epithelial (e.g., Epcam) markers were used to distinguish major cell populations. Identified genes were validated using publicly available databases such as **PanglaoDB** as well as relevant literature (e.g., Durante et al., 2020).
+
+Cell-type identities were assigned by cross-referencing cluster-specific markers with known tissue-specific expression profiles. For example, Adcy3 was used to identify mature olfactory neurons, Krt15 for horizontal basal cells, and C1qa for macrophages. Clusters exhibiting similar transcriptional profiles were grouped under shared cell-type identities. For instance, clusters 0, 2, 4, and 7 were collectively annotated as olfactory sensory neurons (OSNs) based on the expression of markers such as Kirrel3 and S100a5. Additional populations, including immune cells (e.g., neutrophils, B cells, NK cells) and structural cell types (e.g., endothelial cells and fibroblasts), were similarly identified.
+
+Feature plots were generated to visualize the expression of key marker genes across clusters and to validate annotation decisions. The final annotated cell populations were visualized using UMAP to assess their distribution and separation in low-dimensional space.
+
+Annotation was executed on a high-performance computing (HPC) environment using [R Script](code/normalize/annotate.R) submitted via [SLURM](code/normalize/annotate.sh) job scheduling.
 
 
 ### 6. Differential Expression
