@@ -50,6 +50,8 @@ Additionally, scatter plots were used to assess relationships between quality co
 
 Based on these metrics, cells were filtered to retain high-quality cells with `percent.mt < 10, nFeature_RNA > 200, and nFeature_RNA < 4000`. A new Seurat object containing only filtered cells was then created for downstream analysis.
 
+Quality control analyses were performed in R(v4.5.2), and the corresponding [code](code/master_script.R) is provided in the project repository.
+
 ### 3. Normalization & Scaling
 Prior to normalization, the filtered Seurat object was transferred to a high-performance computing (HPC) environment for efficient processing. Normalization was performed in R (4.5.0) using the `SCTransform` method implemented in the Seurat package. SCTransform performs normalization, scaling, and variance stabilization in a single step using a regularized negative binomial regression model, which accounts for sequencing depth and technical variability (Hafemeister & Satija, 2019).
 
