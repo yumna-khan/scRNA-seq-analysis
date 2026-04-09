@@ -66,7 +66,7 @@ To identify distinct cell populations, a shared nearest neighbor (SNN) graph was
 
 For visualization and assessment of cluster structure, UMAP was performed using the same 30 PCs. UMAP plots were generated and colored by original sample identity (`orig.ident`) to assess potential batch effects, and by cluster identity to evaluate the biological organization of the data.
 
-All analyses were executed on a high-performance computing (HPC) environment using [R Script](code/normalize/UMAP.R) submitted via [SLURM](code/normalize/final_UMAP.sh) job scheduling.
+All analyses were executed on a high-performance computing (HPC) environment using [R Script](code/cluster/UMAP.R) submitted via [SLURM](code/cluster/final_UMAP.sh) job scheduling.
 
 ### 5. Annotation
 To assign biological identities to clusters generated at a resolution of `0.6`, differential expression analysis was first performed using the `FindAllMarkers` function in the Seurat package. A Wilcoxon rank-sum test was used to identify positive marker genes, with a minimum `log₂ fold-change threshold of 0.25` and a requirement that genes be expressed in at least 25% of cells within each cluster. Marker genes were ranked by `average log₂ fold-change`, and the top markers per cluster were selected for downstream annotation.
@@ -77,7 +77,7 @@ Cell-type identities were assigned by cross-referencing cluster-specific markers
 
 Feature plots were generated using Seurat’s `FeaturePlot` function, to visualize the expression of key marker genes across clusters and to validate annotation decisions. The final annotated cell populations were visualized using UMAP to assess their distribution and separation in low-dimensional space.
 
-Annotation was executed on a high-performance computing (HPC) environment using [R Script](code/normalize/annotate.R) submitted via [SLURM](code/normalize/annotate.sh) job scheduling.
+Annotation was executed on a high-performance computing (HPC) environment using [R Script](code/annotation/annotate.R) submitted via [SLURM](code/annotation/annotate.sh) job scheduling.
 
 
 ### 6. Differential Expression
@@ -89,7 +89,7 @@ Volcano plots were generated using `ggplot2`, with genes colored based on signif
 
 To visualize gene expression patterns across cells, feature plots were generated, with cells split by condition (Naive vs Infected). Additionally, violin plots (`VlnPlot`) were used to examine the distribution of selected differentially expressed genes across individual time points. 
 
-All differential expression analyses were executed on a high-performance computing (HPC) environment using [R Scripts](code/normalize/de.R) submitted via a [shell job script](code/normalize/de.sh).
+All differential expression analyses were executed on a high-performance computing (HPC) environment using [R Scripts](code/differential_expression/de.R) submitted via a [shell job script](code/differential_expression/de.sh).
 
 
 ### 7. GSEA
