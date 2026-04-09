@@ -44,7 +44,7 @@ In total, the dataset comprises 156,572 cells and 25,129 gene features. Cells ar
 ### 2. Quality Control
 The dataset was explored prior to quality control to examine metadata and assess the number of cells and genes. Quality control was performed in R (v4.5.2) by calculating the percentage of mitochondrial gene expression (`percent.mt`) as an indicator of cellular stress. Cells undergoing stress or apoptosis, which can occur during viral infections such as Influenza A virus (IAV), often exhibit elevated mitochondrial RNA content due to leakage of cytoplasmic RNA. Cells with mitochondrial percentages exceeding 10–20% were considered low quality and potentially non-viable (Osorio & Cai, 2020).
 
-To visualize the distribution of quality control metrics prior to filtering, violin plots were generated for each sample (grouped by `orig.ident`), displaying the number of detected genes per cell (`nFeature_RNA`), total RNA counts per cell (`nCount_RNA`), and the percentage of mitochondrial gene expression (`percent.mt`).
+To visualize the distribution of quality control metrics prior to filtering, violin plots were generated for each sample (grouped by `orig.ident`), displaying the number of detected genes per cell (`nFeature_RNA`), total RNA counts per cell (`nCount_RNA`), and the percentage of mitochondrial gene expression (`percent.mt`) per each time point.
 
 Additionally, scatter plots were used to assess relationships between quality control metrics. A strong positive correlation was observed between `nCount_RNA` and `nFeature_RNA` (Pearson correlation = 0.83), indicating that cells with higher RNA counts tend to have more detected genes. In contrast, a weak correlation was observed between mitochondrial percentage and gene count (Pearson correlation = -0.06), suggesting that mitochondrial content is largely independent of gene complexity.
 
@@ -111,11 +111,11 @@ All analyses were performed in R, and the corresponding [code](code/gsea/gsea.R)
 ### Quality Control
 ![Figure 1](results/quality_control/QC_violin_prefilter.png)
 
-**Figure 1:** Distribution of Quality Control Metrics Prior to Filtering. This visualization displays the number of unique genes (Gene Count), total RNA counts (RNA Count), and mitochondrial gene percentage (Mitochondrial %) for each sample before data cleaning. The wide distribution of mitochondrial reads and the presence of cells with very low gene counts highlight the necessity of filtering to remove non-viable cells and technical noise.
+**Figure 1:** Distribution of Quality Control Metrics Prior to Filtering. This visualization displays the number of unique genes (Gene Count), total RNA counts (RNA Count), and mitochondrial gene percentage (Mitochondrial %) per each time point. The wide distribution of mitochondrial reads and the presence of cells with very low gene counts highlight the necessity of filtering to remove non-viable cells and technical noise.
 
 ![Figure 2](results/quality_control/QC_violin_postfilter.png)
 
-**Figure 2:** Distribution of Quality Control Metrics Following Filtering. The metrics are shown after applying thresholds of 500–4,000 unique genes, a threshold of 0-6500 of total RNA counts, and a mitochondrial maximum of 10%. By narrowing these distributions, the dataset is restricted to high-quality, viable cells, providing a consistent baseline for the subsequent normalization.
+**Figure 2:** Distribution of Quality Control Metrics Following Filtering. The metrics are shown after applying thresholds of 500–4,000 unique genes, a threshold of 0-6500 of total RNA counts, and a mitochondrial maximum of 10% per each time point (naive, day 2, day 5, day 8, and day 14). By narrowing these distributions, the dataset is restricted to high-quality, viable cells, providing a consistent baseline for the subsequent normalization.
 
 Initial assessment of the scRNA-seq dataset revealed substantial variability in cellular quality across samples, as reflected in pre-filtering metrics ([Figure 1](results/quality_control/QC_violin_prefilter.png)). Violin plots of quality control features showed that most cells contained between 1,000 and 3,000 detected genes (Gene Count) and exhibited consistent total RNA counts (RNA Count) across time points, indicating uniform sequencing depth. However, a subset of cells displayed elevated mitochondrial gene expression (Mitochondrial %), with values extending up to ~15%, suggesting the presence of stressed or dying cells, likely associated with Influenza A infection or tissue processing.
 
@@ -147,7 +147,16 @@ For example, markers such as C1qa (macrophages), Adcy3 (neurons), and Krt15 (bas
 
 The differential expression analysis of the macrophage compartment revealed a distinct transcriptomic response to infection ([Figure 5](results/differential_expression/volcano_Macrophages.png)). The most statistically significant upregulated gene was Gm42418, while Obp1a showed the most substantial positive fold change, suggesting these may be key markers of the infection state in this tissue. Additionally, several genes associated with inflammatory signaling and structural regulation, such as mt-Atp8 and Tubb4b, were significantly induced. In contrast, the downregulation of several myeloid and signaling genes, including Cd14, Nfkbia, and Dusp1, was observed. 
 
+![Figure 6](results/differential_expression/violin_Macrophages_timepoints.png)
+
+**Figure 6:** Expression Distribution of Top Differentially Expressed Genes. This panel of violin plots illustrates the expression distribution of key marker genes in macrophages across five distinct timepoints: Naive, D02, D05, D08, and D14. Genes such as Obp1a and Obp1b show a rapid, high-intensity induction in the early stages of infection (D02–D05), while Ccl5 exhibits a more delayed expression peak specifically at D08. In contrast, Gm42418 shows a broad and sustained increase in expression across all post-infection timepoints compared to the baseline Naive state.
+
+To examine the progression of the macrophage response during Influenza A infection, the expression of top-ranked differentially expressed genes (DEGs) was evaluated across multiple time points ([Figure 6](results/differential_expression/violin_Macrophages_timepoints.png)). Distinct temporal patterns of gene expression were observed. For example, Obp1a and Obp1b showed increased expression at Day 2, while the chemokine Ccl5 exhibited elevated expression at Day 8. In contrast, the non-coding RNA Gm42418 remained consistently expressed across all time points (D02–D14).
+
+These results indicate that DEGs are not uniformly expressed, but instead display dynamic, time-dependent patterns during the course of infection.
+
 ### GSEA
+
 
 ## Discussion
 
