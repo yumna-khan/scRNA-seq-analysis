@@ -75,12 +75,21 @@ Clusters were manually annotated based on the expression of canonical marker gen
 
 Cell-type identities were assigned by cross-referencing cluster-specific markers with known tissue-specific expression profiles. For example, Adcy3 was used to identify mature olfactory neurons, Krt15 for horizontal basal cells, and C1qa for macrophages. Clusters exhibiting similar transcriptional profiles were grouped under shared cell-type identities. For instance, clusters 0, 2, 4, and 7 were collectively annotated as olfactory sensory neurons (OSNs) based on the expression of markers such as Kirrel3 and S100a5. Additional populations, including immune cells (e.g., neutrophils, B cells, NK cells) and structural cell types (e.g., endothelial cells and fibroblasts), were similarly identified.
 
-Feature plots were generated to visualize the expression of key marker genes across clusters and to validate annotation decisions. The final annotated cell populations were visualized using UMAP to assess their distribution and separation in low-dimensional space.
+Feature plots were generated using Seurat’s `FeaturePlot` function, to visualize the expression of key marker genes across clusters and to validate annotation decisions. The final annotated cell populations were visualized using UMAP to assess their distribution and separation in low-dimensional space.
 
 Annotation was executed on a high-performance computing (HPC) environment using [R Script](code/normalize/annotate.R) submitted via [SLURM](code/normalize/annotate.sh) job scheduling.
 
 
 ### 6. Differential Expression
+Differential expression analysis was performed on macrophage populations. The processed Seurat object was loaded, and the RNA assay was used for downstream analysis. To enable condition-specific comparisons, cells were grouped into two conditions: Naive and Infected, based on the `orig.ident` metadata field. The condition label was assigned such that all non-naive samples were classified as infected. Cell identities were then set to this condition variable for differential testing.
+
+Differential gene expression between infected and naive macrophages was then computed using the Wilcoxon rank-sum test implemented in Seurat’s `FindMarkers` function. To ensure a robust comparison, genes were required to be expressed in at least 10% of cells in either group and exhibit a minimum `log₂ fold-change threshold of 0.25` for initial testing. P-values were adjusted for multiple testing using Bonferroni correction. Genes were defined as significantly differentially expressed if they reached an `adjusted p-value < 0.05` and an absolute `log₂ fold-change > 0.5`. Genes with positive `log₂ fold change` were considered upregulated in infected cells, while those with `negative log₂ fold change` were considered downregulated.
+
+Volcano plots were generated using `ggplot2`, with genes colored based on significance category. The top differentially expressed genes were annotated using `ggrepel` to improve label readability.
+
+To visualize gene expression patterns across cells, feature plots were generated, with cells split by condition (Naive vs Infected). Additionally, violin plots (`VlnPlot`) were used to examine the distribution of selected differentially expressed genes across individual time points. 
+
+All differential expression analyses were executed on a high-performance computing (HPC) environment using [R Scripts](code/normalize/de.R) submitted via a [shell job script](code/normalize/de.sh).
 
 
 ### 7. GSEA
