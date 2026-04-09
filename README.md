@@ -108,25 +108,25 @@ All analyses were performed in R, and the corresponding [code](code/gsea/gsea.R)
 
 
 ## Results
-### Quality Control
+### 1. Quality Control
 ![Figure 1](results/quality_control/QC_violin_prefilter.png)
 
-**Figure 1:** Distribution of Quality Control Metrics Prior to Filtering. This visualization displays the number of unique genes (Gene Count), total RNA counts (RNA Count), and mitochondrial gene percentage (Mitochondrial %) per each time point. The wide distribution of mitochondrial reads and the presence of cells with very low gene counts highlight the necessity of filtering to remove non-viable cells and technical noise.
+**Figure 1:** Distribution of Quality Control Metrics Prior to Filtering. This visualization displays the number of unique genes (left panel), total RNA counts (middle panel), and mitochondrial gene percentage (right panel) per time point. The wide distribution of mitochondrial reads and the presence of cells with very low gene counts highlight the necessity of filtering to remove non-viable cells and technical noise.
 
 ![Figure 2](results/quality_control/QC_violin_postfilter.png)
 
-**Figure 2:** Distribution of Quality Control Metrics Following Filtering. The metrics are shown after applying thresholds of 500–4,000 unique genes, a threshold of 0-6500 of total RNA counts, and a mitochondrial maximum of 10% per each time point (naive, day 2, day 5, day 8, and day 14). By narrowing these distributions, the dataset is restricted to high-quality, viable cells, providing a consistent baseline for the subsequent normalization.
+**Figure 2:** Distribution of Quality Control Metrics Following Filtering. The metrics are shown after applying thresholds of 500–4,000 unique genes, a threshold of 0-6500 of total RNA counts, and a mitochondrial maximum of 10% per time point. By narrowing these distributions, the dataset is restricted to high-quality, viable cells, providing a consistent baseline for the subsequent normalization.
 
-Initial assessment of the scRNA-seq dataset revealed substantial variability in cellular quality across samples, as reflected in pre-filtering metrics ([Figure 1](results/quality_control/QC_violin_prefilter.png)). Violin plots of quality control features showed that most cells contained between 1,000 and 3,000 detected genes (Gene Count) and exhibited consistent total RNA counts (RNA Count) across time points, indicating uniform sequencing depth. However, a subset of cells displayed elevated mitochondrial gene expression (Mitochondrial %), with values extending up to ~15%, suggesting the presence of stressed or dying cells, likely associated with Influenza A infection or tissue processing.
+Initial assessment of the scRNA-seq dataset revealed substantial variability in cellular quality across samples, as reflected in pre-filtering metrics ([Figure 1](results/quality_control/QC_violin_prefilter.png)). Violin plots of quality control features showed that most cells contained between 1,000 and 3,000 detected genes (left panel) and exhibited consistent total RNA counts (middle panel) across time points, indicating uniform sequencing depth. However, a subset of cells displayed elevated mitochondrial gene expression (right panel), with values extending up to ~15%, suggesting the presence of stressed or dying cells, likely associated with Influenza A infection or tissue processing.
 
 To prevent these low-quality cells from biasing downstream clustering and functional analyses, a stringent filtering strategy was applied. Following filtering ([Figure 2](results/quality_control/QC_violin_postfilter.png)), the dataset was restricted to high-quality cells with mitochondrial content below 10% and a gene detection range between 500 and 4,000 unique features. This ensured that subsequent analyses were performed on biologically meaningful and high-confidence cell populations.
 
-### Annotation
+### 2. Annotation
 ![Figure 3](results/annotation/UMAP_clusters_vs_annotations.png)
 
 **Figure 3:** Comparative UMAP Analysis: Clustering vs. Biological Annotation. The side-by-side UMAP embeddings illustrate the unsupervised clustering at a resolution of 0.6 (left) and the subsequent manual cell-type annotation (right). It identifies 39 distinct cell populations including various neuronal, epithelial, and immune lineages.
 
-Unsupervised clustering and dimensionality reduction revealed a highly complex cellular architecture within the respiratory tissues, represented by 39 distinct clusters ([Figure 3](results/annotation/UMAP_clusters_vs_annotations.png)). The global data structure was primarily driven by biological lineage, as evidenced by the clear spatial separation between neuronal populations (e.g., mature olfactory neurons, neuronal progenitors), epithelial cells (e.g., horizontal basal cells, secretory cells), and infiltrating immune populations.
+Unsupervised clustering and dimensionality reduction revealed a highly complex cellular architecture within the respiratory tissues, represented by 39 distinct clusters ([Figure 3](results/annotation/UMAP_clusters_vs_annotations.png)). The clustering pattern was primarily driven by biological lineage, as evidenced by the clear spatial separation between neuronal populations (e.g., mature olfactory neurons, neuronal progenitors), epithelial cells (e.g., horizontal basal cells, secretory cells), and infiltrating immune populations.
 
 Comparison of the cluster-based UMAP with the annotated version confirmed that a resolution of 0.6 effectively captured the biological diversity of the tissue without over-clustering technical noise. This map provided the foundation for lineage-specific analyses, enabling the precise isolation of the macrophage compartment.
 
@@ -140,7 +140,7 @@ To validate the biological accuracy of the 39 identified clusters, feature plots
 
 For example, markers such as C1qa (macrophages), Adcy3 (neurons), and Krt15 (basal cells) exhibited highly restricted expression patterns, appearing in specific clusters rather than being broadly distributed across the dataset. This distinct localization of gene expression supports the biological validity of the clustering and confirms that each cluster represents a unique cell population with a characteristic transcriptomic profile.
 
-### Differential Expression
+### 3. Differential Expression
 ![Figure 5](results/differential_expression/volcano_Macrophages.png)
 
 **Figure 5:** Differential Gene Expression in Macrophages. This volcano plot illustrates the transcriptional changes in macrophages when comparing Infected vs. Naive conditions. The x-axis represents the log2 fold change, while the y-axis shows the statistical significance (-log10 adjusted p-value). Red points represent significantly upregulated genes, including Gm42418 (the most significant) and Obp1a (the highest fold change). Blue points indicate downregulated genes, such as Cd14, Nfkbia, and Cxcl2. Gray points represent genes that did not meet the significance threshold.
@@ -155,7 +155,17 @@ To examine the progression of the macrophage response during Influenza A infecti
 
 These results indicate that DEGs are not uniformly expressed, but instead display dynamic, time-dependent patterns during the course of infection.
 
-### GSEA
+### 4. GSEA
+![Figure 7](results/gsea/GSEA_GO_dotplot.png)
+
+**Figure 7:** Gene Set Enrichment Analysis (GSEA) of Biological Processes. This dotplot displays the Gene Ontology (GO) terms significantly enriched in macrophages during Influenza A infection. The Activated panel (left) shows biological pathways that are upregulated, while the Suppressed panel (right) identifies pathways that are downregulated. Each dot’s size corresponds to the number of genes associated with that term, and the color indicates the statistical significance (p-value).
+
+To translate gene-level changes into biological functions, GSEA was performed for Gene Ontology (GO) Biological Processes ([Figure 7](results/gsea/GSEA_GO_dotplot.png)
+). The analysis revealed distinct enrichment patterns between naive and infected macrophages. Pathways related to antiviral responses, including response to virus and defense response to virus, were significantly enriched in the infected condition.
+
+In contrast, several metabolic and homeostatic pathways, including response to insulin, cellular response to peptide hormone stimulus, and response to lipids, were significantly depleted.
+
+These results indicate that infection is associated with increased enrichment of antiviral pathways and reduced enrichment of metabolic and signaling processes, linking the observed differentially expressed genes to broader functional changes.
 
 
 ## Discussion
