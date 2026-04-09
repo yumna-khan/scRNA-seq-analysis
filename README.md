@@ -91,8 +91,18 @@ To visualize gene expression patterns across cells, feature plots were generated
 
 All differential expression analyses were executed on a high-performance computing (HPC) environment using [R Scripts](code/differential_expression/de.R) submitted via a [shell job script](code/differential_expression/de.sh).
 
-
 ### 7. GSEA
+Functional interpretation of differentially expressed genes (DEGs) within the macrophage cluster was performed using Gene Set Enrichment Analysis (GSEA), enabling the identification of coordinated biological processes that may not be apparent from single-gene analysis.
+
+Gene symbols obtained from differential expression analysis were converted to `Entrez IDs` using the `bitr` function and the `org.Mm.eg.db` (v3.16.0) mouse genome annotation database. To prepare input for GSEA, all genes were ranked in descending order based on their `average log₂ fold-change`, such that genes most upregulated in the Infected condition were positioned at the top of the ranked list, while those downregulated (or relatively higher in the Naive condition) were positioned at the bottom.
+
+Enrichment analysis was conducted using the `clusterProfiler` package (v4.6.0) in R (v4.5.2). Two primary databases were queried: Gene Ontology (GO) Biological Process, to identify broad cellular functions and physiological responses, and KEGG pathways, to identify specific metabolic and signaling pathways.
+
+For both analyses, gene sets with sizes between 15 and 500 were retained (`minGSSize = 15`, `maxGSSize = 500`) to exclude overly narrow or excessively broad categories. Statistical significance was determined using a p-value cutoff of `0.05` following Benjamini–Hochberg (BH) correction for multiple testing.
+
+Results were visualized using dot plots generated with the `enrichplot` package. To distinguish between activated and suppressed pathways, results were stratified by the sign of the normalized enrichment score (NES) (`split = ".sign"`), where a positive NES indicates pathways enriched in infected macrophages and a negative NES indicates pathways enriched in the naive condition.
+
+All analyses were performed in R, and the corresponding [code](code/gsea/gsea.R) is provided in the project repository.
 
 
 ## Results
